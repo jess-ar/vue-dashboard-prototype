@@ -1,12 +1,7 @@
 <template>
-  <div class="pa-6">
-    <h1 class="text-h4 font-weight-bold">
-      {{ title }}
-    </h1>
-    <p>Welcome to the website of {{ title }} 👋</p>
-  </div>
+  <HomeContent />
 </template>
 
 <script setup>
-const title = "Home";
+import HomeContent from '@/components/pageParts/HomeContent.vue'
 </script>

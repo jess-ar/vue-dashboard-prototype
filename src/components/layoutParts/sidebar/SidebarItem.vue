@@ -1,7 +1,7 @@
 <template>
   <v-list-item
     :class="[
-      'rounded-e-xl my-1 mr-2 d-flex align-center',
+      'rounded-e-xl my-1 d-flex align-center',
       isActive ? 'bg-surface' : ''
     ]"
     link
@@ -9,9 +9,9 @@
   >
     <v-icon
       :style="{ color: color }"
-      class="mr-3"
+      :class="isRail ? 'mr-0' : 'mr-3'"
     >
-      {{ icon }}
+      {{ item.icon }}
     </v-icon>
 
     <span
@@ -19,7 +19,7 @@
       class="text-body-2 font-weight-medium"
       :style="{ color: color }"
     >
-      {{ title }}
+      {{ item.title }}
     </span>
   </v-list-item>
 </template>
@@ -28,20 +28,21 @@
 import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 import { useRouter, useRoute } from 'vue-router'
+import { useAuth } from '@/composables/useAuth'
 
 const props = defineProps({
-  title: { type: String, required: true },
-  icon: { type: String, required: true },
-  path: { type: String, required: true },
-  rail: { type: Boolean, required: true },
-  active: { type: Boolean, required: true }
+  item: { type: Object, required: true },
+  rail: { type: Boolean, required: true }
 })
 
+const { logout } = useAuth()
 const theme = useTheme()
 const router = useRouter()
 const route = useRoute()
 
-const isActive = computed(() => route.path === props.path)
+const isActive = computed(() =>
+  props.item.path ? route.path === props.item.path : false
+)
 
 const color = computed(() =>
   isActive.value
@@ -50,8 +51,13 @@ const color = computed(() =>
 )
 
 const navigate = () => {
-  if (!isActive.value) router.push(props.path)
+  if (props.item.action === 'logout') {
+    logout()
+  } else if (props.item.path && !isActive.value) {
+    router.push(props.item.path)
+  }
 }
+
 </script>
 
 <style scoped>

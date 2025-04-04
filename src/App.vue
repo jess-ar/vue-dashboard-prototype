@@ -1,27 +1,55 @@
 <template>
   <v-app>
-    <v-main class="d-flex flex-row min-h-screen">
-      <Sidebar />
+    <router-view v-slot="{ Component }">
+      <PublicLayout v-if="isAuthRoute">
+        <component 
+          :is="Component" 
+          :key="$route.fullPath"
+        />
+      </PublicLayout>
 
-      <div class="flex-grow-1 d-flex flex-column">
-        <Topbar />
-        
-        <div class="flex-grow-1 px-6 py-4">
-          <router-view />
-        </div>
+      <PrivateLayout v-else-if="isAuthenticated && Component">
+        <component 
+          :is="Component" 
+          :key="$route.fullPath" 
+        />
+      </PrivateLayout>
 
-        <div
-          class="text-caption px-6 pb-4 text-center text-sm-end"
-          :style="{ color: 'var(--v-theme-text)' }"
-        >
-          © 2025 Digit +
-        </div>
+      <!-- Fallback -->
+      <div 
+        v-else 
+        class="pa-10 text-center text-red text-h6"
+      >
+        ❌ Unauthorized or unknown route.
+        <code>{{ $route.fullPath }}</code>
       </div>
-    </v-main>
+    </router-view>
   </v-app>
 </template>
 
 <script setup>
-import Topbar from '@/components/layout/topbar/Topbar.vue';
-import Sidebar from '@/components/layout/sidebar/Sidebar.vue'
+import { computed, ref, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
+import { ROUTES } from '@/router/paths.js'
+import { isAuthenticated } from '@/composables/useAuth.js'
+
+import PublicLayout from '@/layouts/PublicLayout.vue'
+import PrivateLayout from '@/layouts/PrivateLayout.vue'
+
+const route = useRoute()
+const currentPath = ref(route.path)
+
+watchEffect(() => {
+  currentPath.value = route.path
+})
+
+const publicRoutes = [
+  ROUTES.LOGIN,
+  ROUTES.REGISTER,
+  ROUTES.FORGOT_PASSWORD
+]
+
+const isAuthRoute = computed(() =>
+  publicRoutes.some(p => currentPath.value.startsWith(p))
+)
 </script>

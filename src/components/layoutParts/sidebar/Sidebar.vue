@@ -4,9 +4,11 @@
     :permanent="!isMobile"
     :temporary="isMobile"
     app
+    location="left"
     :width="sidebarWidth"
-    class="bg-transparent"
-    :class="{ collapsed: isCollapsed }"
+    class="bg-transparent animated-drawer"
+    :class="{ collapsed: !isMobile && isRail }"
+    style="height: 100vh;"
   >
     <v-sheet 
       class="ma-4 rounded-xl elevation-2 d-flex flex-column"
@@ -22,7 +24,6 @@
               alt="Logo Digit+"
               width="28"
               height="28"
-              :class="!isRail ? 'mr-2' : ''"
             >
             <span 
               v-if="!isRail" 
@@ -39,9 +40,7 @@
         <SidebarItem
           v-for="item in items"
           :key="item.title"
-          :title="item.title"
-          :icon="item.icon"
-          :path="item.path"
+          :item="item"
           :rail="isRail"
         />
 
@@ -50,23 +49,17 @@
         <!-- Collapse button -->
         <v-spacer />
         <v-list-item 
-          link 
+          v-if="!isMobile"
+          link
           :class="{ 'rail-mode': isRail }"
           class="collapse-item"
-          @click="toggleRail" 
+          @click="toggleRail"
         >
           <v-list-item-icon>
             <v-icon>
               {{ isRail ? "mdi-chevron-right" : "mdi-chevron-left" }}
             </v-icon>
           </v-list-item-icon>
-          <v-list-item-content v-if="!isRail">
-            <v-list-item-title 
-              class="font-weight-bold"
-            >
-              Collapse
-            </v-list-item-title>
-          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-sheet>
@@ -74,49 +67,54 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useTheme, useDisplay } from 'vuetify'
 import SidebarItem from './SidebarItem.vue'
-
-const { mdAndDown } = useDisplay()
-const isMobile = computed(() => mdAndDown.value)
+import { sidebarState } from '@/stores/sidebar'
+import { ROUTES } from '@/router/paths'
 
 const theme = useTheme()
-const drawer = ref(true)
-const isRail = ref(false)
+const { mdAndDown } = useDisplay()
 
-const sidebarWidth = computed(() => {
-  return isRail.value ? 95 : 230
+const isMobile = computed(() => mdAndDown.value)
+
+const drawer = computed({
+  get: () => sidebarState.isDrawerOpen,
+  set: (val) => sidebarState.isDrawerOpen = val
+})
+
+const isRail = computed({
+  get: () => sidebarState.isCollapsed,
+  set: (val) => sidebarState.isCollapsed = val
 })
 
 const toggleRail = () => {
   isRail.value = !isRail.value
 }
 
+const sidebarWidth = computed(() => {
+  if (isMobile.value) return 180
+  return isRail.value ? 92 : 230 
+})
+
+
+watch(isMobile, (val) => {
+  sidebarState.isDrawerOpen = !val
+})
+
 const items = [
-  { title: "Dashboard", icon: "mdi-view-dashboard", path: "/dashboard" },
-  { title: "Home", icon: "mdi-home", path: "/home" },
-  { title: "Profile", icon: "mdi-account", path: "/profile" },
-  { title: "Edit", icon: "mdi-pencil", path: "/edit" },
-  { title: "Calendar", icon: "mdi-calendar", path: "/calendar" },
-  { title: "Settings", icon: "mdi-cog", path: "/settings" },
-  { title: "Exit", icon: "mdi-logout", path: "/exit" },
+  { title: 'dashboard', icon: 'mdi-view-dashboard', path: ROUTES.DASHBOARD },
+  { title: 'home', icon: 'mdi-home', path: ROUTES.HOME },
+  { title: 'profile', icon: 'mdi-account', path: ROUTES.PROFILE },
+  { title: 'edit', icon: 'mdi-pencil', path: ROUTES.EDIT },
+  { title: 'calendar', icon: 'mdi-calendar', path: ROUTES.CALENDAR },
+  { title: 'settings', icon: 'mdi-cog', path: ROUTES.SETTINGS },
+  { title: 'exit', icon: 'mdi-logout', action: 'logout' },
 ]
+
 </script>
 
 <style scoped>
-
-.fill-height {
-  height: 100%;
-}
-
-.collapsed .v-list-item {
-  justify-content: center;
-  :deep(.v-list-item-icon) {
-    margin-right: 0;
-  }
-}
-
 .collapsed {
   transition: width 0.3s ease;
 }

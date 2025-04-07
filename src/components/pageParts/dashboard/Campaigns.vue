@@ -12,13 +12,15 @@
       >
         Your Campaigns
       </h2>
-      <v-btn
-        color="secondary"
-        class="text-white px-6 py-1 rounded-pill elevation-4"
-        prepend-icon="mdi-calendar-plus"
-      >
-        New campaign
-      </v-btn>
+      <RouterLink :to="ROUTES.NEW_CAMPAIGN">
+        <v-btn
+          color="secondary"
+          class="text-white px-6 py-1 rounded-pill elevation-4"
+          prepend-icon="mdi-calendar-plus"
+        >
+          New campaign
+        </v-btn>
+      </RouterLink>
     </v-row>
 
     <!-- Subtitle + table 1 -->
@@ -64,6 +66,7 @@
 import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 import CampaignTable from './CampaignTable.vue'
+import { ROUTES } from '@/router/paths.js'
 
 const { current } = useTheme()
 

@@ -12,4 +12,5 @@ export const ROUTES = {
   CALENDAR: '/calendar',
   SETTINGS: '/settings',
   EXIT: '/exit',
+  NEW_CAMPAIGN: '/campaign/new',
 }

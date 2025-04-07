@@ -1,5 +1,18 @@
+* {
+  font-family: 'Inter', sans-serif;
+}
+
 body {
   width: 100%;
   overflow-x: hidden;
 }
 
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}

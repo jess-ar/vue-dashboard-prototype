@@ -18,6 +18,17 @@ export default [
   {
     rules: {
       'vue/multi-word-component-names': 'off',
-    },
-  }
+  
+      // Disables forced auto-close in normal HTML
+      'vue/html-self-closing': ['error', {
+        html: {
+          void: 'never',
+          normal: 'never',
+          component: 'always'
+        },
+        svg: 'always',
+        math: 'always'
+      }]
+    }
+  }  
 ]

@@ -1,23 +1,21 @@
 <template>
-  <div :class="['d-flex', isMobile ? 'flex-column' : 'flex-row']">
-    <!-- Sidebar solo and desktop -->
-    <Sidebar 
-      v-if="!isMobile" 
-      class="sidebar-desktop" 
-    />
+  <v-app>
+    <div :class="['d-flex', isMobile ? 'flex-column' : 'flex-row']">
+      <Sidebar />
 
-    <!-- Main content with topbar and main -->
-    <div class="flex-grow-1 d-flex flex-column">
-      <Topbar />
+      <div class="flex-grow-1 d-flex flex-column min-h-screen">
+        <Topbar />
 
-      <v-main>
-        <v-container class="pa-4">
-          <slot />
-        </v-container>
+        <v-main class="flex-grow-1 ">
+          <v-container class="pa-4">
+            <slot></slot>
+          </v-container>
+        </v-main>
+
         <AppFooter />
-      </v-main>
+      </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script setup>

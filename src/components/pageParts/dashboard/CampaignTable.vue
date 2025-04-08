@@ -113,7 +113,6 @@ const headers = computed(() => {
   }
 })
 
-
 const { current } = useTheme()
 
 const cardColor = computed(() => (current.value.dark ? '#0F2942' : '#DFEFF9'))
@@ -149,4 +148,5 @@ const cardColor = computed(() => (current.value.dark ? '#0F2942' : '#DFEFF9'))
   border-collapse: separate;
   border-spacing: 0;
 }
+
 </style>

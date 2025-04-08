@@ -1,21 +1,57 @@
 <template>
-  <div class="step-action d-flex justify-end pa-4">
+  <div class="d-flex justify-space-between align-center mt-8">
     <BaseButton
-      :label="label"
-      icon="mdi-arrow-right"
-      variant="confirm"
-      :to="to"
-    />
+      icon="mdi-arrow-left"
+      variant="dashboard"
+      @click="goBack"
+    >
+      Back to dashboard
+    </BaseButton>
+
+    <BaseButton
+      v-if="canContinue"
+      :icon="nextIcon"
+      :variant="nextVariant"
+      @click="goNext"
+    >
+      {{ nextLabel }}
+    </BaseButton>
   </div>
 </template>
 
 <script setup>
-import BaseButton from '@/components/common/BaseButton.vue'
+import { computed } from 'vue'
 
-</script>
+const props = defineProps({
+  currentStep: { type: String, required: true },
+  theme: { type: String, default: 'light' },
+  canContinue: { type: Boolean, default: true },
+})
 
-<style scoped>
-.step-action {
-  width: 100%;
+const emit = defineEmits(['next', 'back'])
+
+function goNext() {
+  emit('next')
 }
-</style>
+function goBack() {
+  emit('back')
+}
+
+const nextIcon = computed(() =>
+  props.currentStep === 'validation' ? 'mdi-credit-card' : 'mdi-chevron-right'
+)
+
+const nextLabel = computed(() => {
+  const map = {
+    audience: 'Step 2 – Visuals',
+    visuals: 'Step 3 – Scheduling',
+    scheduling: 'Step 4 – Validation',
+    validation: 'Confirm and Pay',
+  }
+  return map[props.currentStep] || 'Next'
+})
+
+const nextVariant = computed(() => {
+  return props.currentStep === 'validation' ? 'confirmPay' : 'step2' // usa tus variantes
+})
+</script>

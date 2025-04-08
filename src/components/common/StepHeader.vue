@@ -1,68 +1,73 @@
 <template>
-  <div class="step-header">
+  <div
+    class="step-header d-flex rounded-pill px-4 py-3 mx-auto bg-primary"
+    style="font-size: 0.875rem;"
+    role="list"
+  >
     <div
       v-for="(step, index) in steps"
-      :key="index"
-      class="step"
-      :class="{ active: index + 1 === currentStep }"
+      :key="step.id"
+      role="listitem"
+      class="d-flex align-center mx-2 px-4 py-2 rounded-pill transition-all cursor-pointer"
+      :class="[
+        index === currentStepIndex ? 'bg-secondary text-black shadow-md' : 'text-textColor',
+      ]"
+      :aria-current="index === currentStepIndex ? 'step' : undefined"
+      style="font-weight: 500; flex-shrink: 0;"
+      @click="emit('navigate', step.id)"
     >
-      <span class="label">{{ step }}</span>
-      <span class="badge">{{ index + 1 }}</span>
+      <span class="mr-2">{{ step.label }}</span>
+      <div
+        class="rounded-circle d-flex align-center justify-center ml-2"
+        :class="index === currentStepIndex ? 'bg-black text-white' : 'bg-grey-darken-3 text-white'"
+        style="width: 24px; height: 24px; font-size: 0.875rem;"
+      >
+        {{ index + 1 }}
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
-  steps: {
-    type: Array,
-    default: () => ['Audience', 'Visuals', 'Scheduling', 'Validation', 'Confirmation'],
-  },
-  currentStep: {
-    type: Number,
-    default: 1,
-  },
+  currentStep: { type: String, required: true },
 })
+
+const emit = defineEmits(['navigate'])
+
+const steps = [
+  { id: 'audience', label: 'Audience' },
+  { id: 'visuals', label: 'Visuals' },
+  { id: 'scheduling', label: 'Scheduling' },
+  { id: 'validation', label: 'Validation' },
+  { id: 'confirmation', label: 'Confirmation' },
+]
+
+const currentStepIndex = computed(() =>
+  steps.findIndex((step) => step.id === props.currentStep)
+)
 </script>
 
 <style scoped>
 .step-header {
-  display: flex;
-  background-color: white;
-  padding: 8px;
-  border-radius: 999px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  gap: 24px;
-  justify-content: space-between;
-  align-items: center;
   max-width: 800px;
-  margin: 0 auto;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
 
-.step {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  border-radius: 999px;
-  font-weight: bold;
-  color: var(--v-theme-textColor);
+.step-header::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
-.step.active {
-  background-color: var(--v-theme-secondary);
-  color: white;
-}
-
-.step .badge {
-  background-color: black;
-  color: white;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 600px) {
+  .step-header {
+    border-radius: 0;
+    padding-inline: 1rem;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
 }
 </style>

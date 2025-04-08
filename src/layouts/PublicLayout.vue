@@ -1,5 +1,5 @@
 <template>
-  <v-main style="background-color: #eaf3fc;">
+  <div style="background-color: #eaf3fc;">
     <div class="decor-wrapper">
       <!-- Decorative images behind the content -->
       <img 
@@ -18,10 +18,11 @@
         <slot></slot>
       </div>
     </div>
-  </v-main>
+  </div>
 </template>
 
 <style scoped>
+
 .decor-wrapper {
   position: relative;
   width: 100%;

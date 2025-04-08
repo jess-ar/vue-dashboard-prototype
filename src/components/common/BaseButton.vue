@@ -1,107 +1,174 @@
 <template>
   <v-btn
-    :block="block"
-    :variant="computedVariant"
-    :color="computedColor"
-    :class="
-      ['base-btn', variant, { active }] +
-        (small ? ' text-caption py-1 px-2' : ' py-3 px-5')
-    "
-    :to="to"
-    :href="href"
-    :elevation="elevation"
-    class="rounded-pill text-none"
-    v-bind="$attrs"
+    class="custom-btn text-white text-body-1 font-bold d-flex align-center"
+    :height="`${selected.height}px`"
+    :width="`${selected.width}px`"
+    :class="[selected.colorClass]"
+    :style="{
+      paddingInline: selected.paddingX,
+      borderRadius: '999px',
+    }"
+    @click="emit('click')"
   >
-    <v-icon 
-      v-if="icon" 
-      :size="iconSize" 
-      class="mr-2"
+    <!-- Custom circle icon (solo si useCircleIcon está en true) -->
+    <div
+      v-if="selected.useCircleIcon"
+      class="mr-3 d-flex align-center justify-center"
+      :style="{
+        backgroundColor: 'white',
+        borderRadius: '999px',
+        width: '24px',
+        height: '24px',
+      }"
     >
-      {{ icon }}
+      <v-icon 
+        :color="selected.bg" 
+        size="16"
+      >
+        {{ icon || selected.icon }}
+      </v-icon>
+    </div>
+
+    <!-- Normal icon si no hay circulito -->
+    <v-icon
+      v-else-if="icon || selected.icon"
+      class="mr-2"
+      size="18"
+    >
+      {{ icon || selected.icon }}
     </v-icon>
-    <span class="font-weight-bold">{{ label }}</span>
+    <slot>
+    </slot>
   </v-btn>
 </template>
 
+
 <script setup>
-import { computed } from "vue";
+import { computed } from 'vue'
+
+const emit = defineEmits(['click'])
+
 
 const props = defineProps({
-  label: String,
-  icon: String,
   variant: {
     type: String,
-    default: "primary", // step, secondary, danger, ghost, confirm, etc.
+    required: true,
   },
-  active: Boolean,
-  block: Boolean,
-  small: Boolean,
-  to: String,
-  href: String,
-  elevation: {
-    type: [Number, String],
-    default: 2,
-  },
-  iconSize: {
-    type: [Number, String],
-    default: 20,
-  },
-});
+  icon: {
+  type: String,
+  default: '',
+}})
 
-const computedColor = computed(() => {
-  switch (props.variant) {
-    case "step":
-      return props.active ? "accent" : "#D1D5DB";
-    case "danger":
-      return "#dc2626";
-    case "ghost":
-      return "transparent";
-    case "secondary":
-      return "secondary";
-    case "confirm":
-      return "#529BC5";
-    case "primary":
-    default:
-      return "secondary";
-  }
-});
+const variants = {
+  newCampaign: {
+    width: 240,
+    height: 70,
+    colorClass: 'bg-secondary',
+    bg: 'secondary',
+    paddingX: '24px',
+    icon: 'mdi-calendar',
+  },
+  return: {
+  width: 250,
+  height: 57,
+  colorClass: 'bg-terciary',
+  bg: 'terciary',
+  paddingX: '28px',
+  icon: 'mdi-close',
+  useCircleIcon: true,
+  },
+  backStep: {
+  width: 150,
+  height: 57,
+  colorClass: 'bg-terciary',
+  bg: 'terciary',
+  paddingX: '28px',
+  icon: 'mdi-chevron-left',
+  useCircleIcon: true,
+  },
+  step1: {
+    width: 280,
+    height: 57,
+    colorClass: 'bg-terciary',
+    bg: 'terciary',
+    paddingX: '31px',
+    icon: 'mdi-chevron-left',
+    useCircleIcon: true,
+  },
+  step2: {
+    width: 250,
+    height: 57,
+    colorClass: 'bg-secondary',
+    bg: 'secondary',
+    paddingX: '35px',
+    icon: 'mdi-chevron-right',
+    useCircleIcon: true,
+  },
+  step3: {
+    width: 250,
+    height: 57,
+    colorClass: 'bg-secondary',
+    bg: 'secondary',
+    paddingX: '18px',
+    icon: 'mdi-chevron-right',
+    useCircleIcon: true,
+  },
+  step4: {
+    width: 250,
+    height: 57,
+    colorClass: 'bg-secondary',
+    bg: 'secondary',
+    paddingX: '18px',
+    icon: 'mdi-chevron-right',
+    useCircleIcon: true,
+  },
+  confirmPay: {
+    width: 250,
+    height: 57,
+    colorClass: 'bg-secondary',
+    bg: 'secondary',
+    paddingX: '25px',
+    icon: 'mdi-chevron-right',
+    useCircleIcon: true,
+  },
+  dashboard: {
+    width: 250,
+    height: 57,
+    colorClass: 'bg-secondary',
+    bg: 'secondary',
+    paddingX: '10px',
+    icon: 'mdi-arrow-left',
+  },
+}
 
-const computedVariant = computed(() => {
-  return props.variant === "ghost" ? "outlined" : "flat";
-});
+const selected = computed(() => {
+  return variants[props.variant] || variants.step2
+})
 </script>
 
 <style scoped>
-.base-btn.step.active {
-  background-color: var(--v-theme-accent) !important;
-  color: white;
+.v-btn {
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-.base-btn.step:not(.active) {
-  background-color: white;
-  color: black;
-  border: 1px solid #cfcfcf;
+/* responsive settings */
+@media (max-width: 600px) {
+  .custom-btn {
+    font-size: 0.75rem !important;
+    height: 45px !important;
+    width: auto !important;
+    padding-inline: 16px !important;
+  }
+
+  .custom-btn .v-icon {
+    font-size: 14px !important;
+  }
+
+  .custom-btn > div[style*="width: 24px"] {
+    width: 20px !important;
+    height: 20px !important;
+  }
 }
 
-.base-btn.danger {
-  background-color: #dc2626 !important;
-  color: white;
-}
-
-.base-btn.ghost {
-  background-color: transparent !important;
-  color: var(--v-theme-textColor);
-  border: 1px solid #d1d5db;
-}
-
-.base-btn.confirm {
-  background-color: #529BC5 !important;
-  color: white;
-}
-
-.base-btn.secondary {
-  background-color: var(--v-theme-secondary);
-  color: white;
-}
 </style>

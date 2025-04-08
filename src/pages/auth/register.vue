@@ -39,10 +39,10 @@
           @click="loginWithGoogle"
         >
           <img 
-            src="/icons/google.svg" 
-            alt="Google" 
+            :src="googleIcon" 
+            alt="Google logo" 
             width="20" 
-            class="mr-2" 
+            class="mr-2"
           >
           <span class="d-none d-sm-inline">Sign in with Google</span>
           <span class="d-inline d-sm-none">Google</span>
@@ -57,10 +57,10 @@
           @click="loginWithMicrosoft"
         >
           <img 
-            src="/icons/microsoft.svg" 
-            alt="Microsoft" 
+            :src="microsoftIcon" 
+            alt="Microsoft logo" 
             width="20" 
-            class="mr-2" 
+            class="mr-2"
           >
           <span class="d-none d-sm-inline">Sign in with Microsoft</span>
           <span class="d-inline d-sm-none">Microsoft</span>
@@ -176,6 +176,9 @@ import { ref } from 'vue'
 import { useAuth } from '@/composables/useAuth.js'
 import { ROUTES } from '@/router/paths.js'
 import { users } from '@/mock/users.js'
+
+const googleIcon = new URL('@/assets/icons/google.svg', import.meta.url).href
+const microsoftIcon = new URL('@/assets/icons/microsoft.svg', import.meta.url).href
 
 const email = ref('')
 const password = ref('')

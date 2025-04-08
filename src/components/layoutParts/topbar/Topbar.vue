@@ -3,7 +3,7 @@
     flat
     app
     height="80"
-    class="px-4 pt-4"
+    class="px-4 pt-4 backdrop-blur-xl"
     color="transparent"
   >
     <v-sheet
@@ -15,24 +15,34 @@
         v-if="isMobile" 
         icon 
         variant="text" 
-        @click="toggleDrawer"
+        @click="drawer = !drawer"
       >
         <v-icon>
-          {{ sidebarState.isDrawerOpen ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+          {{ drawer ? 'mdi-close' : 'mdi-menu' }}
         </v-icon>
       </v-btn>
 
       <!-- Search -->
-      <v-text-field
-        density="compact"
-        hide-details
-        variant="solo-filled"
-        rounded
-        prepend-inner-icon="mdi-magnify"
-        placeholder="Try searching..."
-        :style="{ maxWidth: '280px' }"
-        class="w-full md:w-auto"
-      />
+      <template v-if="!isMobile">
+        <v-text-field
+          density="compact"
+          hide-details
+          variant="solo-filled"
+          rounded
+          prepend-inner-icon="mdi-magnify"
+          placeholder="Try searching..."
+          :style="{ maxWidth: '280px' }"
+          class="w-full md:w-auto"
+        />
+      </template>
+      <template v-else>
+        <v-btn 
+          icon 
+          variant="text"
+        >
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+      </template>
 
       <v-spacer />
 
@@ -94,13 +104,20 @@ import { useTheme } from 'vuetify'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth.js'
 import { useDisplay } from 'vuetify'
-import { sidebarState, toggleDrawer } from '@/stores/sidebar.js'
+import { sidebarState } from '@/stores/sidebar.js'
+import { computed } from 'vue'
 
 const theme = useTheme()
 const router = useRouter()
 const { user, logout } = useAuth()
+
 const { mdAndDown } = useDisplay()
-const isMobile = mdAndDown
+const isMobile = computed(() => mdAndDown.value)
+
+const drawer = computed({
+  get: () => sidebarState.isDrawerOpen,
+  set: (val) => sidebarState.isDrawerOpen = val
+})
 
 const toggleTheme = () => {
   theme.global.name.value = theme.global.name.value === 'dark' ? 'light' : 'dark'
@@ -113,6 +130,7 @@ const handleLogout = () => {
 </script>
 
 <style scoped>
+
 @media (max-width: 600px) {
   .v-app-bar .v-icon {
     margin-right: 1px;
@@ -121,4 +139,5 @@ const handleLogout = () => {
     padding-right: 1px;
   }
 }
+
 </style>

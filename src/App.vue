@@ -1,30 +1,28 @@
 <template>
-  <v-app>
-    <router-view v-slot="{ Component }">
-      <PublicLayout v-if="isAuthRoute">
-        <component 
-          :is="Component" 
-          :key="$route.fullPath"
-        />
-      </PublicLayout>
+  <router-view v-slot="{ Component }">
+    <PublicLayout v-if="isAuthRoute">
+      <component 
+        :is="Component" 
+        :key="$route.fullPath"
+      />
+    </PublicLayout>
 
-      <PrivateLayout v-else-if="isAuthenticated && Component">
-        <component 
-          :is="Component" 
-          :key="$route.fullPath" 
-        />
-      </PrivateLayout>
+    <PrivateLayout v-else-if="isAuthenticated && Component">
+      <component 
+        :is="Component" 
+        :key="$route.fullPath" 
+      />
+    </PrivateLayout>
 
-      <!-- Fallback -->
-      <div 
-        v-else 
-        class="pa-10 text-center text-red text-h6"
-      >
-        ❌ Unauthorized or unknown route.
-        <code>{{ $route.fullPath }}</code>
-      </div>
-    </router-view>
-  </v-app>
+    <!-- Fallback -->
+    <div 
+      v-else 
+      class="pa-10 text-center text-red text-h6"
+    >
+      ❌ Unauthorized or unknown route.
+      <code>{{ $route.fullPath }}</code>
+    </div>
+  </router-view>
 </template>
 
 <script setup>

@@ -6,9 +6,8 @@
     app
     location="left"
     :width="sidebarWidth"
-    class="bg-transparent animated-drawer"
-    :class="{ collapsed: !isMobile && isRail }"
-    style="height: 100vh;"
+    class="bg-transparent animated-drawer z-[9999]"
+    mobile-breakpoint="960"
   >
     <v-sheet 
       class="ma-4 rounded-xl elevation-2 d-flex flex-column"
@@ -74,8 +73,8 @@ import { sidebarState } from '@/stores/sidebar'
 import { ROUTES } from '@/router/paths'
 
 const theme = useTheme()
-const { mdAndDown } = useDisplay()
 
+const { mdAndDown } = useDisplay()
 const isMobile = computed(() => mdAndDown.value)
 
 const drawer = computed({
@@ -97,21 +96,19 @@ const sidebarWidth = computed(() => {
   return isRail.value ? 92 : 230 
 })
 
-
 watch(isMobile, (val) => {
-  sidebarState.isDrawerOpen = !val
+  if (!val) drawer.value = true
 })
 
 const items = [
-  { title: 'dashboard', icon: 'mdi-view-dashboard', path: ROUTES.DASHBOARD },
   { title: 'home', icon: 'mdi-home', path: ROUTES.HOME },
+  { title: 'dashboard', icon: 'mdi-view-dashboard', path: ROUTES.DASHBOARD },
   { title: 'profile', icon: 'mdi-account', path: ROUTES.PROFILE },
   { title: 'edit', icon: 'mdi-pencil', path: ROUTES.EDIT },
   { title: 'calendar', icon: 'mdi-calendar', path: ROUTES.CALENDAR },
   { title: 'settings', icon: 'mdi-cog', path: ROUTES.SETTINGS },
   { title: 'exit', icon: 'mdi-logout', action: 'logout' },
 ]
-
 </script>
 
 <style scoped>

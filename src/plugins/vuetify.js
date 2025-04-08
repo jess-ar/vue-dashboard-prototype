@@ -22,6 +22,7 @@ export default createVuetify({
           primary: '#FEFEFE',
           surface: '#DFEFF9',
           secondary: '#529BC5',
+          terciary: '#424242',
           textColor: '#5F5F5F',
           textAccent:'#529BC5',
           accent: '#F59E0B',
@@ -34,10 +35,11 @@ export default createVuetify({
       },
       dark: {
         colors: {
-          background: '#17283D',
-          primary: '#111D2D',
+          background: '#274163',
+          primary: '#1D3351',
           surface: '#0F2942',
           secondary: '#105B93',
+          terciary: '#0F2942',
           textColor: '#C7CEDA',
           textAccent:'#105B93',
           accent: '#F59E0B',

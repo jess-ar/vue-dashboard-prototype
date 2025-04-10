@@ -4,6 +4,7 @@ import Vue from '@vitejs/plugin-vue'
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import ViteFonts from 'unplugin-fonts/vite'
 import VueRouter from 'unplugin-vue-router/vite'
+import svgSpritePlugin from 'vite-plugin-svg-sprite'
 
 // Utilities
 import { defineConfig } from 'vite'
@@ -15,6 +16,10 @@ export default defineConfig({
     VueRouter(),
     Vue({
       template: { transformAssetUrls }
+    }),
+    svgSpritePlugin({
+      symbolId: 'icon-[name]',
+      include: ['src/assets/icons/**/*.svg']
     }),
     // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
     Vuetify({

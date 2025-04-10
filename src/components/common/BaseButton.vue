@@ -1,16 +1,22 @@
 <template>
   <v-btn
-    class="custom-btn text-white text-body-1 font-bold d-flex align-center"
+    class="custom-btn d-flex align-center"
+    :class="[
+      selected.colorClass,
+      { 'text-white text-body-1 font-bold': props.variant !== 'backSmall' }
+    ]"
     :height="`${selected.height}px`"
     :width="`${selected.width}px`"
-    :class="[selected.colorClass]"
     :style="{
       paddingInline: selected.paddingX,
       borderRadius: '999px',
+      backgroundColor: selected.bg === 'transparent' ? 'transparent' : `var(--v-theme-${selected.bg})`,
+      boxShadow: selected.bg === 'transparent' ? 'none' : undefined
     }"
+
     @click="emit('click')"
   >
-    <!-- Custom circle icon (solo si useCircleIcon está en true) -->
+    <!-- Custom circle icon (only if useCircleIcon is set to true) -->
     <div
       v-if="selected.useCircleIcon"
       class="mr-3 d-flex align-center justify-center"
@@ -29,7 +35,7 @@
       </v-icon>
     </div>
 
-    <!-- Normal icon si no hay circulito -->
+    <!-- Normal icon if there is no circle -->
     <v-icon
       v-else-if="icon || selected.icon"
       class="mr-2"
@@ -45,6 +51,12 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useTheme } from 'vuetify'
+
+
+const { current: theme } = useTheme()
+
+const isDark = computed(() => theme.value.dark)
 
 const emit = defineEmits(['click'])
 
@@ -139,11 +151,97 @@ const variants = {
     paddingX: '10px',
     icon: 'mdi-arrow-left',
   },
+  backSmall: {
+    width: 'auto',
+    height: 32,
+    colorClass: 'text-button2',
+    bg: 'transparent',
+    icon: 'mdi-arrow-left',
+    useCircleIcon: false,
+  },
+  optionCheck: {
+    width: 20,
+    height: 40,
+    colorClass: 'bg-accent',
+    icon: 'mdi-check',
+  },
+  lookContacts: {
+    width: 250,
+    height: 30,
+    colorClass: 'bg-button2',
+    paddingX: '20px',
+    icon: 'mdi-magnify',
+  },
+  addFilter: {
+    width: 213,
+    height: 47,
+    colorClass: 'bg-surface text-textColor',
+    bg: 'black',
+    paddingX: '20px',
+    icon: 'mdi-plus-circle',
+    useCircleIcon: true,
+  },
+  chipFilter: {
+    width: 119,
+    height: 31,
+    colorClass: 'bg-surface text-terciary',
+    bg: 'white',
+    paddingX: '14px',
+    icon: 'mdi-close',
+    useCircleIcon: false
+  },
+  confirmAudience: {
+    width: 224,
+    height: 45,
+    colorClass: 'bg-button2 text-white',
+    bg: 'button2',
+    paddingX: '22px',
+    icon: 'mdi-check',
+    useCircleIcon: true
+  },
+  calculateVolume: {
+    width: 'auto',
+    height: 45,
+    colorClass: 'bg-button2 text-white',
+    bg: 'button2',
+    paddingX: '20px',
+    icon: 'mdi-magnify',
+    useCircleIcon: true,
+  },
+  chooseAudience: {
+    width: 250,
+    height: 50,
+    colorClass: 'bg-button2 text-white',
+    bg: 'button2',
+    paddingX: '24px',
+    icon: 'mdi-check',
+    useCircleIcon: true,
+},
+continueStep: {
+    width: 140,
+    height: 48,
+    colorClass: 'bg-secondary text-white',
+    bg: 'secondary',
+    paddingX: '24px',
+    icon: 'mdi-arrow-right',
+    useCircleIcon: false
+  }
 }
 
 const selected = computed(() => {
-  return variants[props.variant] || variants.step2
+  const base = variants[props.variant] || variants.step2
+
+  if (isDark.value && base.bg === 'white') {
+    return {
+      ...base,
+      colorClass: 'bg-surface text-textColor',
+      bg: 'surface'
+    }
+  }
+
+  return base
 })
+
 </script>
 
 <style scoped>
@@ -152,7 +250,6 @@ const selected = computed(() => {
   letter-spacing: normal;
 }
 
-/* responsive settings */
 @media (max-width: 600px) {
   .custom-btn {
     font-size: 0.75rem !important;

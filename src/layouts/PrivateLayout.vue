@@ -11,8 +11,6 @@
             <slot></slot>
           </v-container>
         </v-main>
-
-        <AppFooter />
       </div>
     </div>
   </v-app>
@@ -24,7 +22,6 @@ import { useDisplay } from 'vuetify'
 
 import Sidebar from '@/components/layoutParts/sidebar/Sidebar.vue'
 import Topbar from '@/components/layoutParts/topbar/Topbar.vue'
-import AppFooter from '@/components/layoutParts/footer/Footer.vue'
 
 const { mobile } = useDisplay()
 const isMobile = computed(() => mobile.value)

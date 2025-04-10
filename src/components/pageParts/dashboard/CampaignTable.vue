@@ -12,16 +12,14 @@
       density="comfortable"
     >
       <!-- Icon for the type -->
-      <template 
-        v-slot:[`item.type`]="{ item }"
-      >
+      <template #[`item.type`]="{ item }">
         <v-icon size="20">
           {{ item.type === 'email' ? 'mdi-email' : 'mdi-cellphone' }}
         </v-icon>
       </template>
 
       <!-- Action buttons -->
-      <template v-slot:[`item.action`]>
+      <template #[`item.action`]="{ item }">
         <div class="d-flex gap-2">
           <v-btn
             v-if="variant === 'validate'"
@@ -29,6 +27,7 @@
             size="small"
             prepend-icon="mdi-format-list-bulleted"
             class="text-white"
+            @click="console.log(item)"
           >
             Resume
           </v-btn>
@@ -136,14 +135,12 @@ const cardColor = computed(() => (current.value.dark ? '#0F2942' : '#DFEFF9'))
   border-top-right-radius: 8px;
 }
 
-/* Texts inside cells */
 .custom-table td {
   font-size: 14px;
   color: #111D2D;
   padding: 12px;
 }
 
-/* Borders and general styling */
 .custom-table table {
   border-collapse: separate;
   border-spacing: 0;

@@ -34,6 +34,7 @@ import { isAuthenticated } from '@/composables/useAuth.js'
 import PublicLayout from '@/layouts/PublicLayout.vue'
 import PrivateLayout from '@/layouts/PrivateLayout.vue'
 
+
 const route = useRoute()
 const currentPath = ref(route.path)
 

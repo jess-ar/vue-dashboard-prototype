@@ -52,6 +52,6 @@ const nextLabel = computed(() => {
 })
 
 const nextVariant = computed(() => {
-  return props.currentStep === 'validation' ? 'confirmPay' : 'step2' // usa tus variantes
+  return props.currentStep === 'validation' ? 'confirmPay' : 'step2'
 })
 </script>

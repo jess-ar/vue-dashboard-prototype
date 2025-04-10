@@ -6,20 +6,31 @@
     />
 
     <!-- The dynamic component according to the step -->
-    <component :is="stepComponent" />
+    <component 
+      :is="stepComponent" 
+      ref="stepRef"
+    />
 
-    <!-- The navigation buttons -->
     <div class="d-flex justify-space-between mt-8">
-      <!-- step 0: Return to dashboard -->
+      <!-- Paso 0 con canal ya seleccionado -->
       <BaseButton
-        v-if="stepIndex === 0"
+        v-if="stepIndex === 0 && stepRef?.value?.channelSelected"
+        variant="backStep"
+        @click="stepRef.value.channelSelected = false"
+      >
+        Back to channel selection
+      </BaseButton>
+
+      <!-- Paso 0 sin canal aún seleccionado -->
+      <BaseButton
+        v-else-if="stepIndex === 0"
         variant="return"
         @click="goToDashboard"
       >
         Return to dashboard
       </BaseButton>
 
-      <!-- Further steps: Back -->
+      <!-- Otros pasos -->
       <BaseButton
         v-else
         variant="backStep"
@@ -28,7 +39,7 @@
         Back
       </BaseButton>
 
-      <!-- Forward button -->
+      <!-- Botón de avanzar -->
       <BaseButton
         :variant="currentStepVariant"
         @click="goNext"
@@ -43,11 +54,11 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ROUTES } from '@/router/paths'
-import StepAudience from '@/components/campaignSteps/StepAudience.vue'
-import StepVisuals from '@/components/campaignSteps/StepVisuals.vue'
-import StepScheduling from '@/components/campaignSteps/StepScheduling.vue'
-import StepValidation from '@/components/campaignSteps/StepValidation.vue'
-import StepConfirmation from '@/components/campaignSteps/StepConfirmation.vue'
+import StepAudience from '@/components/campaignSteps/audience/StepAudience.vue'
+import StepVisuals from '@/components/campaignSteps/visuals/StepVisuals.vue'
+import StepScheduling from '@/components/campaignSteps/scheduling/StepScheduling.vue'
+import StepValidation from '@/components/campaignSteps/validation/StepValidation.vue'
+import StepConfirmation from '@/components/campaignSteps/confirmation/StepConfirmation.vue'
 import StepHeader from '@/components/common/StepHeader.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 
@@ -55,6 +66,7 @@ const router = useRouter()
 
 const steps = ['audience', 'visuals', 'scheduling', 'validation', 'confirmation']
 const stepIndex = ref(0)
+const stepRef = ref(null)
 
 const currentStep = computed(() => steps[stepIndex.value])
 

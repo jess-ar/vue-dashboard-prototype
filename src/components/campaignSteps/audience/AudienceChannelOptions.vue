@@ -2,7 +2,7 @@
   <div
     :style="{
       width: '110%',
-      maxWidth: '1200px',
+      maxWidth: '1140px',
       margin: '0 auto'
     }"
   >
@@ -11,10 +11,10 @@
       :style="{
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? '32px' : '90px',
+        gap: isMobile ? '32px' : '50px',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        padding: isMobile ? '24px 16px' : '32px',
+        padding: isMobile ? '24px 16px' : '5px',
         flexWrap: 'wrap'
       }"
     >
@@ -42,7 +42,6 @@
         >
         <span>{{ channel.toUpperCase() }}</span>
       </div>
-
       <!-- Right column: options -->
       <div
         :style="{
@@ -64,7 +63,6 @@
             Back
           </BaseButton>
         </div>
-
         <h2 
           :style="{
             fontSize: '1.25rem',
@@ -75,12 +73,11 @@
         >
           Audience selection
         </h2>
-
         <!-- Option 1 -->
         <div
           class="option-block"
           :class="{ selected: selectedOption === 'upload' }"
-          @click="selectedOption = 'upload'"
+          @click="selectedOption = 'upload'; isDialogOpen = true"
         >
           <div class="option-flex">
             <div style="min-width: 240px;">
@@ -101,7 +98,6 @@
             </div>
           </div>
         </div>
-
         <!-- Option 2 -->
         <div
           class="option-block"
@@ -150,7 +146,6 @@
             </div>
           </div>
         </div>
-
         <!-- Option 3 -->
         <div
           class="option-block"
@@ -176,7 +171,6 @@
             </div>
           </div>
         </div>
-
         <!-- Continue -->
         <div style="margin-top: 22px; display: flex; justify-content: flex-end;">
           <BaseButton 
@@ -189,12 +183,33 @@
       </div>
     </div>
   </div>
+  <v-dialog
+    v-model="isDialogOpen"
+    max-width="800"
+    persistent
+    scrollable
+  >
+    <v-card>
+      <v-card-title 
+        class="text-h6 font-bold"
+      >
+        Use my own contacts list
+      </v-card-title>
+      <v-card-text>
+        <ContactMappingModal 
+          v-if="isDialogOpen && selectedOption === 'upload'"
+          @close="handleContactMappingClose" 
+        />
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import { useTheme } from 'vuetify'
+import ContactMappingModal from '@/components/campaignSteps/audience/modals/ContactMappingModal.vue'
 
 const { current: theme } = useTheme()
 const textColor = computed(() => theme.value.colors.textColor)
@@ -209,13 +224,21 @@ defineProps({
   }
 })
 
-const selectedOption = ref('upload')
+const selectedOption = ref(null)
 const selectedList = ref('')
+const isDialogOpen = ref(false)
 
 const lists = [
   { id: 'xmas', name: '[SMS] Christmas lights (12 451)' },
   { id: 'valentine', name: '[SMS] Valentine day – sale 50% (7 840)' }
 ]
+
+function handleContactMappingClose(data) {
+  isDialogOpen.value = false
+  if (data) {
+    console.log('Mapped data:', data)
+  }
+}
 
 const smsIcon = new URL('@/assets/icons/sms.svg', import.meta.url).href
 const emailIcon = new URL('@/assets/icons/email.svg', import.meta.url).href

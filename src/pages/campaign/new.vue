@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-6">
+  <div class="pa-2">
     <StepHeader
       :current-step="currentStep"
       @navigate="navigateToStep"

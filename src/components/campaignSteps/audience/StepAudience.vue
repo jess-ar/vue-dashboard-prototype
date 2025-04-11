@@ -5,7 +5,7 @@
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: '30px 16px',
+      padding: '30px 2px',
       width: '100%'
     }"
   >
@@ -32,7 +32,6 @@
       >
         Please select the channel you want to use for this campaign.
       </p>
-
       <div
         :style="{
           display: 'flex',
@@ -80,7 +79,6 @@
         </div>
       </div>
     </div>
-
     <!-- Step 2: Selection of hearing method -->
     <AudienceChannelOptions
       v-else-if="!filtersReady"
@@ -88,7 +86,6 @@
       @back="channelSelected = false"
       @next="filtersReady = true"
     />
-
     <!-- Step 3: Audience filters -->
     <AudienceFilters
       v-else

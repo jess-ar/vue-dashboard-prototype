@@ -2,7 +2,7 @@
   <div
     :style="{
       width: '110%',
-      maxWidth: '1200px',
+      maxWidth: '1140px',
       margin: '0 auto'
     }"
   >
@@ -10,10 +10,10 @@
       :style="{
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? '32px' : '90px',
+        gap: isMobile ? '32px' : '50px',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        padding: isMobile ? '24px 16px' : '32px',
+        padding: isMobile ? '24px 16px' : '5px',
         flexWrap: 'wrap'
       }"
     >
@@ -37,7 +37,6 @@
         >
         <span>{{ channel.toUpperCase() }}</span>
       </div>
-
       <!-- Main box -->
       <div
         :style="{
@@ -74,7 +73,7 @@
           >
             <BaseButton 
               variant="addFilter" 
-              @click="() => {}"
+              @click="() => openModal(group.label)" 
             >
               {{ group.label }}
             </BaseButton>
@@ -129,13 +128,39 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>   
+  <v-dialog 
+    v-model="isDialogOpen" 
+    max-width="800"
+  >
+    <v-card>
+      <v-card-title>{{ currentModal }}</v-card-title>
+      <v-card-text>
+        <GeographicAreaModal
+          v-if="currentModal === 'Geographic area'"
+          @close="handleGeographicClose"
+        />
+        <SocioDemoModal
+          v-if="currentModal === 'Socio-demo criteria'"
+          @close="handleSocioDemoClose"
+        />
+        <InterestModal
+          v-else-if="currentModal === 'Centre of interest'"
+          @close="handleInterestClose"
+        />
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import { useTheme } from 'vuetify'
+import GeographicAreaModal from '@/components/campaignSteps/audience/modals/GeographicAreaModal.vue'
+import SocioDemoModal from '@/components/campaignSteps/audience/modals/SocioDemoModal.vue'
+import InterestModal from '@/components/campaignSteps/audience/modals/InterestModal.vue'
+
 
 const emit = defineEmits(['back', 'next'])
 
@@ -154,16 +179,46 @@ const smsIcon = new URL('@/assets/icons/sms.svg', import.meta.url).href
 const emailIcon = new URL('@/assets/icons/email.svg', import.meta.url).href
 const isMobile = window.innerWidth < 768
 
-
 const filters = ref([
   { label: 'Geographic area', selected: [] },
   { label: 'Socio-demo criteria', selected: ['18 - 25', 'Men', 'Women'] },
   { label: 'Centre of interest', selected: ['Animals'] }
 ])
 
+const isDialogOpen = ref(false)
+const currentModal = ref(null)
+
+function openModal(label) {
+  currentModal.value = label
+  isDialogOpen.value = true
+}
+
 function removeItem(groupIndex, itemIndex) {
   filters.value[groupIndex].selected.splice(itemIndex, 1)
 }
+
+function handleGeographicClose(data) {
+  if (data) {
+    filters.value[0].selected = data.country 
+  }
+  isDialogOpen.value = false
+}
+
+function handleSocioDemoClose(data) {
+  if (data) {
+    filters.value[1].selected = [...data.age, ...data.sex, ...data.income, ...data.other]
+  }
+  isDialogOpen.value = false
+}
+
+function handleInterestClose(data) {
+  if (Array.isArray(data?.selected)) {
+    filters.value[2].selected = [...data.selected]
+  }
+  isDialogOpen.value = false
+  currentModal.value = null
+}
+
 </script>
 
 <style scoped>

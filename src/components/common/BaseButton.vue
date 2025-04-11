@@ -38,7 +38,7 @@
     <!-- Normal icon if there is no circle -->
     <v-icon
       v-else-if="icon || selected.icon"
-      class="mr-2"
+      class="mr-1"
       size="18"
     >
       {{ icon || selected.icon }}
@@ -173,7 +173,7 @@ const variants = {
     icon: 'mdi-magnify',
   },
   addFilter: {
-    width: 213,
+    width: 220,
     height: 47,
     colorClass: 'bg-surface text-textColor',
     bg: 'black',
@@ -181,14 +181,39 @@ const variants = {
     icon: 'mdi-plus-circle',
     useCircleIcon: true,
   },
-  chipFilter: {
-    width: 119,
-    height: 31,
-    colorClass: 'bg-surface text-terciary',
-    bg: 'white',
-    paddingX: '14px',
-    icon: 'mdi-close',
-    useCircleIcon: false
+  chipFilter: { 
+    width: 'auto', 
+    height: 31, 
+    colorClass: 'bg-surface text-terciary', 
+    bg: 'white', 
+    paddingX: '12px', 
+    icon: 'mdi-close', 
+    useCircleIcon: false 
+  },
+  chipFilterNoIcon: { 
+    width: 180, 
+    height: 31, 
+    colorClass: 'bg-surface text-terciary', 
+    bg: 'white', 
+    paddingX: '12px', 
+    useCircleIcon: false 
+  },
+  chipFilterWide: { 
+    width: 150, 
+    height: 35, 
+    colorClass: 'bg-surface text-terciary', 
+    bg: 'white', 
+    paddingX: '16px', 
+    icon: 'mdi-close', 
+    useCircleIcon: false 
+  },
+  chipFilterWideNoIcon: { 
+    width: 150, 
+    height: 35, 
+    colorClass: 'bg-surface text-terciary', 
+    bg: 'white', 
+    paddingX: '16px', 
+    useCircleIcon: false 
   },
   confirmAudience: {
     width: 224,
@@ -201,9 +226,9 @@ const variants = {
   },
   calculateVolume: {
     width: 'auto',
-    height: 45,
-    colorClass: 'bg-button2 text-white',
-    bg: 'button2',
+    height: 44,
+    colorClass: 'bg-surface text-textColor',
+    bg: 'textColor',
     paddingX: '20px',
     icon: 'mdi-magnify',
     useCircleIcon: true,
@@ -216,8 +241,8 @@ const variants = {
     paddingX: '24px',
     icon: 'mdi-check',
     useCircleIcon: true,
-},
-continueStep: {
+  },
+  continueStep: {
     width: 140,
     height: 48,
     colorClass: 'bg-secondary text-white',
@@ -225,6 +250,19 @@ continueStep: {
     paddingX: '24px',
     icon: 'mdi-arrow-right',
     useCircleIcon: false
+  },
+  modalOk: { 
+    width: 50, 
+    height: 44, 
+    colorClass: 'bg-green text-white', 
+    bg: 'green', paddingX: '20px' 
+  },
+  modalCancel: { 
+    width: 100, 
+    height: 44, 
+    colorClass: 'bg-surface text-textColor', 
+    bg: 'white', 
+    paddingX: '20px' 
   }
 }
 
@@ -248,6 +286,10 @@ const selected = computed(() => {
 .v-btn {
   text-transform: none;
   letter-spacing: normal;
+}
+
+.custom-btn {
+  max-width: 100%;
 }
 
 @media (max-width: 600px) {

@@ -11,7 +11,7 @@
         lg="8"
       >
         <h2 class="text-h4 font-weight-bold mb-2 pt-10">
-          👋 Welcome back, {{ userName }}!
+          👋 Welcome, {{ userName }}!
         </h2>
         <p class="text-subtitle-1 text-md-start">
           Let’s make the most of your campaigns today 🚀
@@ -40,7 +40,7 @@
           @click="$router.push(card.route)"
         >
           <v-icon 
-            color="primary" 
+            color="tectColor" 
             size="36" 
             class="mb-2"
           >

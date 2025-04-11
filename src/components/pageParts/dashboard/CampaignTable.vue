@@ -146,4 +146,8 @@ const cardColor = computed(() => (current.value.dark ? '#0F2942' : '#DFEFF9'))
   border-spacing: 0;
 }
 
+.v-btn {
+  margin-right: 6px;
+}
+
 </style>

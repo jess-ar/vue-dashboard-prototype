@@ -1,6 +1,13 @@
 <template>
   <router-view v-slot="{ Component }">
-    <PublicLayout v-if="isAuthRoute">
+    <div 
+      v-if="!isReady" 
+      class="pa-10 text-center text-grey text-h6"
+    >
+      ⏳ Loading session...
+    </div>
+
+    <PublicLayout v-else-if="isAuthRoute">
       <component 
         :is="Component" 
         :key="$route.fullPath"
@@ -26,14 +33,13 @@
 </template>
 
 <script setup>
-import { computed, ref, watchEffect } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { ROUTES } from '@/router/paths.js'
-import { isAuthenticated } from '@/composables/useAuth.js'
+import { isAuthenticated, isReady } from '@/composables/useAuth.js'
 
 import PublicLayout from '@/layouts/PublicLayout.vue'
 import PrivateLayout from '@/layouts/PrivateLayout.vue'
-
 
 const route = useRoute()
 const currentPath = ref(route.path)

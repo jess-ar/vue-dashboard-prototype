@@ -13,7 +13,7 @@
     </v-row>
 
     <v-row justify="center">
-      <RouterLink :to="ROUTES.NEW_CAMPAIGN">
+      <RouterLink :to="ROUTES.AUDIENCE_INDEX">
         <BaseButton 
           variant="newCampaign"
           class="mt-10 mb-4"

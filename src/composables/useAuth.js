@@ -2,15 +2,28 @@ import { ref, computed, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { ROUTES } from '@/router/paths.js'
 
-let parsedUser = null
-try {
-  parsedUser = JSON.parse(localStorage.getItem('user'))
-} catch (e) {
-  console.warn('User data corrupt or not JSON:', e)
-}
-const user = ref(parsedUser)
 
-const token = ref(localStorage.getItem('token'))
+const user = ref(null)
+const token = ref('')
+const isReady = ref(false)
+
+function initAuth() {
+  try {
+    const storedUser = localStorage.getItem('user')
+    const storedToken = localStorage.getItem('token')
+
+    if (storedUser && storedToken) {
+      user.value = JSON.parse(storedUser)
+      token.value = storedToken
+    }
+  } catch (e) {
+    console.warn('User data corrupt or not JSON:', e)
+  } finally {
+    isReady.value = true
+  }
+}
+
+initAuth()
 
 watchEffect(() => {
   token.value = localStorage.getItem('token')
@@ -41,7 +54,9 @@ export function useAuth() {
     user,
     token,
     isAuthenticated,
+    isReady,
     login,
     logout,
   }
 }
+export { isReady }

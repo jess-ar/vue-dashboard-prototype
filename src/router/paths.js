@@ -12,5 +12,22 @@ export const ROUTES = {
   CALENDAR: '/calendar',
   SETTINGS: '/settings',
   EXIT: '/exit',
-  NEW_CAMPAIGN: '/campaign/new',
+
+  // === Audience Steps ===
+  AUDIENCE_INDEX: '/campaign/audience',
+  AUDIENCE_CHANNEL: '/campaign/audience/channel',
+  AUDIENCE_FILTERS: '/campaign/audience/filters',
+  AUDIENCE_SUMMARY: '/campaign/audience/summary',
+
+  // === Visuals ===
+  VISUALS_INDEX: '/campaign/visuals',
+
+  // === Scheduling ===
+  SCHEDULING_INDEX: '/campaign/scheduling',
+
+  // === Validation ===
+  VALIDATION_INDEX: '/campaign/validation',
+
+  // === Confirmation ===
+  CONFIRMATION_INDEX: '/campaign/confirmation',
 }

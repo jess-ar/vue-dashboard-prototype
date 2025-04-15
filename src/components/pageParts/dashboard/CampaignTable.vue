@@ -1,12 +1,11 @@
 <template>
   <v-card 
-    class="mb-6 rounded-lg"  
-    :color="cardColor"
+    class="mb-6 rounded-lg mr-9"
   >
     <v-data-table
       :headers="headers"
       :items="rows"
-      class="elevation-0 rounded-lg custom-table"
+      class="elevation-0 rounded-lg custom-table bg-cardColor"
       :hide-default-footer="true"
       :item-value="() => ''"
       density="comfortable"
@@ -79,7 +78,6 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useTheme } from 'vuetify'
 
 const props = defineProps({
   variant: {
@@ -112,9 +110,6 @@ const headers = computed(() => {
   }
 })
 
-const { current } = useTheme()
-
-const cardColor = computed(() => (current.value.dark ? '#0F2942' : '#DFEFF9'))
 </script>
 
 <style scoped>
@@ -122,7 +117,7 @@ const cardColor = computed(() => (current.value.dark ? '#0F2942' : '#DFEFF9'))
 .custom-table .v-data-table-header th {
   background-color: #2C3D91;
   color: white;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   text-transform: none;
   padding: 12px;

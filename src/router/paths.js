@@ -9,8 +9,9 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   PROFILE: '/profile',
   EDIT: '/edit',
-  CALENDAR: '/calendar',
+  CAMPAIGNS: '/campaigns',
   SETTINGS: '/settings',
+  TEST: '/test',
   EXIT: '/exit',
 
   // === Audience Steps ===

@@ -1,16 +1,14 @@
 <template>
   <div>
     <v-list-item
-      :class="[
-        'rounded-e-xl my-1 d-flex align-center',
-        isActive ? 'bg-surface' : ''
-      ]"
+      :style="isActive ? { backgroundColor: '#0085DB1F' } : {}"
+      class="rounded-e-xl my-1 d-flex align-center"
       link
       @click="handleClick"
     >
       <v-icon
-        :style="{ color: color }"
         :class="isRail ? 'mr-0' : 'mr-3'"
+        :style="{ color: color }"
       >
         {{ item.icon }}
       </v-icon>
@@ -29,9 +27,7 @@
       max-width="400"
       height="150"
     >
-      <v-card
-        class="pa-4"
-      >
+      <v-card class="pa-4">
         <v-card-title class="text-h6 pt-4">
           Are you sure you want to log out?
         </v-card-title>
@@ -96,15 +92,13 @@ const logoutAndRedirect = () => {
   logout()
   router.push('/login')
   if (window.innerWidth < 960) {
-  sidebarState.isDrawerOpen = false
-}}
-
+    sidebarState.isDrawerOpen = false
+  }
+}
 </script>
 
 <style scoped>
-.v-list-item-title {
-  font-weight: bold;
-  color: inherit;
+.bg-activeBackground {
+  background-color: var(--v-theme-activeBackground);
 }
-
 </style>

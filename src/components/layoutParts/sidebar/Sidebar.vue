@@ -103,11 +103,13 @@ watch(isMobile, (val) => {
 const items = [
   { title: 'home', icon: 'mdi-home', path: ROUTES.HOME },
   { title: 'dashboard', icon: 'mdi-view-dashboard', path: ROUTES.DASHBOARD },
-  { title: 'profile', icon: 'mdi-account', path: ROUTES.PROFILE },
+  { title: 'campaigns', icon: 'mdi-format-list-bulleted', path: ROUTES.CAMPAIGNS },
   { title: 'edit', icon: 'mdi-pencil', path: ROUTES.EDIT },
-  { title: 'calendar', icon: 'mdi-calendar', path: ROUTES.CALENDAR },
+  { title: 'profile', icon: 'mdi-account', path: ROUTES.PROFILE },
   { title: 'settings', icon: 'mdi-cog', path: ROUTES.SETTINGS },
+  { title: 'test', icon: 'mdi-flask-outline', path: ROUTES.TEST },
   { title: 'exit', icon: 'mdi-logout', action: 'logout' },
+  
 ]
 </script>
 

@@ -1,21 +1,38 @@
 <template>
   <div>
     <v-list-item
-      :style="isActive ? { backgroundColor: '#0085DB1F' } : {}"
-      class="rounded-e-xl my-1 d-flex align-center"
+      :style="[
+        { backgroundColor: isActive ? '#0085DB1F' : 'transparent' },
+        props.rail
+          ? { padding: '8px 0', justifyContent: 'center' }
+          : { padding: '8px 16px', justifyContent: 'flex-start' }
+
+      ]"
+      class="rounded-e-xl d-flex align-center"
       link
       @click="handleClick"
     >
       <v-icon
-        :class="isRail ? 'mr-0' : 'mr-3'"
-        :style="{ color: color }"
+        :style="{
+          color: color,
+          marginRight: props.rail
+            ? '0'
+            : props.mobile
+              ? '20px'
+              : '20px',
+
+          paddingLeft: props.rail || props.mobile ? '0' : '16px',
+          width: '24px',
+          height: '24px',
+          textAlign: 'center'
+        }"
       >
         {{ item.icon }}
       </v-icon>
 
       <span
-        v-if="!rail"
-        class="text-body-2 font-weight-medium"
+        v-if="!props.rail"
+        class="text-body-2 font-weight-regular text-truncate"
         :style="{ color: color }"
       >
         {{ item.title }}
@@ -24,7 +41,7 @@
 
     <v-dialog 
       v-model="confirmLogout" 
-      max-width="400"
+      max-width="400" 
       height="150"
     >
       <v-card class="pa-4">
@@ -56,11 +73,11 @@ import { ref, computed } from 'vue'
 import { useTheme } from 'vuetify'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
-import { sidebarState } from '@/stores/sidebar.js'
 
 const props = defineProps({
   item: { type: Object, required: true },
-  rail: { type: Boolean, required: true }
+  rail: { type: Boolean, required: true },
+  mobile: { type: Boolean, required: true }
 })
 
 const confirmLogout = ref(false)
@@ -91,14 +108,5 @@ const logoutAndRedirect = () => {
   confirmLogout.value = false
   logout()
   router.push('/login')
-  if (window.innerWidth < 960) {
-    sidebarState.isDrawerOpen = false
-  }
 }
 </script>
-
-<style scoped>
-.bg-activeBackground {
-  background-color: var(--v-theme-activeBackground);
-}
-</style>

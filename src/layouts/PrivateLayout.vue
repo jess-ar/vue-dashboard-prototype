@@ -6,7 +6,7 @@
       <div class="flex-grow-1 d-flex flex-column min-h-screen">
         <Topbar />
 
-        <v-main class="flex-grow-1">
+        <v-main class="flex-grow-1 mx-8">
           <slot></slot>
         </v-main>
       </div>

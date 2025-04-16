@@ -3,25 +3,25 @@
     flat
     app
     height="80"
-    class="px-4 pt-4 backdrop-blur-xl"
+    class="px-12 pt-4 backdrop-blur-xl"
     color="transparent"
   >
     <v-sheet
       class="w-100 d-flex align-center px-6 py-3 rounded-xl elevation-2 ma-4"
       color="primary"
     >
-      <!-- Menu button only visible on mobile -->
-      <v-btn 
-        v-if="isMobile" 
-        icon 
-        variant="text" 
-        @click="drawer = !drawer"
+      <!-- Menu button  -->
+      <v-btn
+        icon
+        variant="text"
+        class="icon-svg-btn mr-4"
+        @click="toggleSidebar"
       >
-        <v-icon>
-          {{ drawer ? 'mdi-close' : 'mdi-menu' }}
-        </v-icon>
+        <span
+          class="icon-svg"
+          v-html="hamburgerSvg"
+        ></span>
       </v-btn>
-
       <!-- Search -->
       <template v-if="!isMobile">
         <v-text-field
@@ -43,9 +43,7 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </template>
-
       <v-spacer />
-
       <!-- Dark mode -->
       <v-btn 
         icon 
@@ -56,7 +54,7 @@
           {{ theme.global.name.value === 'dark' ? 'mdi-white-balance-sunny' : 'mdi-weather-night' }}
         </v-icon>
       </v-btn>
-
+      
       <!-- Notifications -->
       <v-btn 
         icon 
@@ -106,6 +104,8 @@ import { useAuth } from '@/composables/useAuth.js'
 import { useDisplay } from 'vuetify'
 import { sidebarState } from '@/stores/sidebar.js'
 import { computed } from 'vue'
+import hamburgerSvg from '@/assets/icons/hamburger.svg?raw'
+
 
 const theme = useTheme()
 const router = useRouter()
@@ -114,13 +114,17 @@ const { user, logout } = useAuth()
 const { mdAndDown } = useDisplay()
 const isMobile = computed(() => mdAndDown.value)
 
-const drawer = computed({
-  get: () => sidebarState.isDrawerOpen,
-  set: (val) => sidebarState.isDrawerOpen = val
-})
 
 const toggleTheme = () => {
   theme.global.name.value = theme.global.name.value === 'dark' ? 'light' : 'dark'
+}
+
+const toggleSidebar = () => {
+  if (isMobile.value) {
+    sidebarState.isDrawerOpen = !sidebarState.isDrawerOpen
+  } else {
+    sidebarState.isCollapsed = !sidebarState.isCollapsed
+  }
 }
 
 const handleLogout = () => {
@@ -130,7 +134,6 @@ const handleLogout = () => {
 </script>
 
 <style scoped>
-
 @media (max-width: 600px) {
   .v-app-bar .v-icon {
     margin-right: 1px;
@@ -140,4 +143,26 @@ const handleLogout = () => {
   }
 }
 
+.icon-svg svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  fill: currentColor;
+}
+
+/* HOVER */
+.icon-svg-btn {
+  transition: background-color 0.3s ease;
+  border-radius: 50%;
+  padding: 8px;
+}
+
+.icon-svg-btn:hover {
+  background-color: rgba(0, 133, 219, 0.1);
+}
+
+.icon-svg-btn:hover .icon-svg svg {
+  color: #0085DB;
+}
 </style>
+

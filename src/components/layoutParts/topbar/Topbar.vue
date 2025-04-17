@@ -3,11 +3,11 @@
     flat
     app
     height="80"
-    class="px-12 pt-4 backdrop-blur-xl"
+    class="px-4 sm:px-8 md:px-12 pt-4 backdrop-blur-xl"
     color="transparent"
   >
     <v-sheet
-      class="w-100 d-flex align-center px-6 py-3 rounded-xl elevation-2 ma-4"
+      class="w-100 d-flex align-center px-6 py-3 rounded-xl elevation-2 ma-6"
       color="primary"
     >
       <!-- Menu button  -->

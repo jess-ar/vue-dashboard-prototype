@@ -19,6 +19,8 @@ import ProductsCard from '@/components/cards/ProductsCard.vue'
 import LatestDealCard from '@/components/cards/LatestDealCard.vue'
 import CustomersCard from '@/components/cards/CustomersCard.vue'
 import SummaryOrdersGraphCard from '@/components/cards/SummaryOrdersGraphCard.vue'
+import ProductPaymentsCard from '@/components/cards/ProductPaymentsCard.vue'
+
 
 import HomeWelcomeCard from '@/components/cards/home/HomeWelcomeCard.vue'
 import HomeQuickActionsCard from '@/components/cards/home/HomeQuickActionsCard.vue'
@@ -36,6 +38,7 @@ const componentMap = {
   'latest-deal': LatestDealCard,
   'customers': CustomersCard,
   'summary-orders-graph': SummaryOrdersGraphCard,
+  'product-payments': ProductPaymentsCard,
 
   'home-welcome': HomeWelcomeCard,
   'home-quick-actions': HomeQuickActionsCard,

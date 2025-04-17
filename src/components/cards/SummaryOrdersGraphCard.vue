@@ -1,26 +1,35 @@
 <template>
   <!-- Upper part: Summary -->
-  <div class="d-flex flex-column flex-md-row justify-space-between align-center pb-2">
+  <div
+    class="d-flex flex-column flex-md-row justify-space-between align-center pb-2"
+    role="region"
+    aria-label="Weekly sales summary"
+  >
     <!-- Left column -->
     <div class="flex-1 pe-md-8">
-      <h5 class="text-h5 font-weight-semibold mb-1">
+      <h6 class="text-h6 font-weight-semibold mb-1">
         Congratulations Jonathan
-      </h5>
-      <div class="text-subtitle-1 text-grey pb-1 font-weight-medium">
+      </h6>
+      <p class="text-subtitle-2 text-textCard pb-1 font-weight-medium">
         You have done 38% more sales
-      </div>
+      </p>
 
-      <v-list class="pa-0 bg-transparent">
+      <v-list 
+        class="pa-0 bg-transparent" 
+        role="list" 
+        aria-label="Order summary statuses"
+      >
         <v-list-item class="pa-0 mb-3">
           <template #prepend>
             <v-avatar 
               size="40" 
-              class="bg-success-light"
+              class="bg-success-light" 
+              aria-hidden="true"
             >
               <v-icon 
                 color="success"
               >
-                mdi-trash-can
+                mdi-cart
               </v-icon>
             </v-avatar>
           </template>
@@ -36,12 +45,13 @@
           <template #prepend>
             <v-avatar 
               size="40" 
-              class="bg-warning-light"
+              class="bg-warning-light" 
+              aria-hidden="true"
             >
               <v-icon 
                 color="warning"
               >
-                mdi-book-outline
+                mdi-alert-circle-outline
               </v-icon>
             </v-avatar>
           </template>
@@ -57,12 +67,13 @@
           <template #prepend>
             <v-avatar 
               size="40" 
-              class="bg-info-light"
+              class="bg-info-light" 
+              aria-hidden="true"
             >
               <v-icon 
                 color="info"
               >
-                mdi-truck-delivery-outline
+                mdi-truck-outline
               </v-icon>
             </v-avatar>
           </template>
@@ -77,14 +88,14 @@
     </div>
 
     <!-- Right column: image -->
-    <div 
-      class="align-self-end" 
-      style="margin-bottom: -30px; 
-      margin-right: -16px;"
+    <div
+      class="align-self-end"
+      style="margin-bottom: -35px; margin-right: -16px;"
+      aria-hidden="true"
     >
       <img
         src="@/assets/images/man-working-on-laptop.png"
-        alt="Illustration"
+        alt="Illustration of a person working on laptop"
         class="w-100"
         style="max-width: 250px; min-width: 180px; object-fit: contain;"
       >
@@ -94,24 +105,29 @@
   <v-divider class="my-4" />
 
   <!-- Bottom: Graphic -->
-  <div>
+  <div 
+    role="region" 
+    aria-label="Total orders chart section"
+  >
     <div class="d-flex justify-space-between align-center mb-4 flex-wrap">
       <div class="mb-2">
-        <h5 class="text-h5 font-weight-semibold mb-1">
+        <h6 class="text-h6 font-weight-semibold mb-1">
           Total Orders
-        </h5>
-        <div class="text-subtitle-1 text-grey pb-1 font-weight-medium">
+        </h6>
+        <p class="text-subtitle-2 text-textCard pb-1 font-weight-medium">
           Weekly order updates
-        </div>
+        </p>
       </div>
 
       <v-select
         v-model="selectedRange"
+        :items="['March 2023', 'April 2023', 'May 2023']"
         density="compact"
         variant="outlined"
-        :items="['This Week', 'Last Week']"
-        class="w-auto"
         hide-details
+        class="select-responsive bg-cardColor text-textCard no-blue"
+        :menu-props="{ contentClass: 'bg-cardColor text-textCard no-blue' }"
+        aria-label="Select month"
       />
     </div>
 
@@ -130,14 +146,8 @@ import ApexChart from 'vue3-apexcharts'
 const selectedRange = ref('This Week')
 
 const chartSeries = ref([
-  {
-    name: 'Orders',
-    data: [4, 16, 12, 18, 24, 20, 28]
-  },
-  {
-    name: 'Comparative',
-    data: [3, 14, 13, 15, 18, 19, 25]
-  }
+  { name: 'Orders', data: [4, 16, 12, 18, 24, 20, 28] },
+  { name: 'Comparative', data: [3, 14, 13, 15, 18, 19, 25] }
 ])
 
 const chartOptions = ref({
@@ -147,25 +157,54 @@ const chartOptions = ref({
     zoom: { enabled: false }
   },
   dataLabels: { enabled: false },
-  stroke: { curve: 'smooth', width: 3 },
+  stroke: {
+    curve: 'smooth',
+    width: 3
+  },
   xaxis: {
     categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    labels: { style: { colors: 'var(--v-theme-on-surface)' } }
+    labels: {
+      style: {
+        colors: 'var(--v-theme-on-surface)',
+        fontSize: '12px'
+      }
+    }
   },
   yaxis: {
-    labels: { style: { colors: 'var(--v-theme-on-surface)' } }
+    labels: {
+      style: {
+        colors: 'var(--v-theme-on-surface)',
+        fontSize: '12px'
+      }
+    }
   },
   tooltip: { theme: 'dark' },
   grid: {
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: 'rgba(0,0,0,0.05)',
     strokeDashArray: 4
   },
-  colors: ['#4FB0FF', '#90CAF9']
+  colors: ['#4FB0FF', '#90CAF9'],
+  legend: { show: false }
 })
 
 defineOptions({
-  components: {
-    apexchart: ApexChart
-  }
+  components: { apexchart: ApexChart }
 })
 </script>
+
+
+<style scoped>
+
+.select-responsive {
+  max-width: 150px;
+  min-width: 110px;
+}
+
+@media (max-width: 600px) {
+  .select-responsive {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+</style>

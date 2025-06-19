@@ -15,14 +15,14 @@
       <div class="d-flex align-center justify-center gap-4 mb-6">
         <img 
           src="/favicon.svg" 
-          alt="Digit+ logo" 
+          alt="Nova logo" 
           width="48" 
           height="48" 
         >
         <h2 
           class="text-h5 font-weight-bold mb-0 ml-2"
         >
-          Digit +
+          Nova
         </h2>
       </div>
 

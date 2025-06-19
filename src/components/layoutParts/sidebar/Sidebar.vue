@@ -11,7 +11,7 @@
     class="bg-cardColor ma-4 mr-10 mt-5 rounded-xl"
     :style="railStyles"
   >
-    <v-list class="d-flex flex-column flex-grow-1 mr-4">
+    <v-list class="d-flex flex-column flex-grow-1">
       <!-- Logo -->
       <v-list-item
         :style="isMobile 
@@ -29,7 +29,7 @@
         >
           <img
             :src="theme.global.name.value === 'dark' ? '/favicon.white.svg' : '/favicon.svg'"
-            alt="Logo Digit+"
+            alt="Logo Nova"
             width="28"
             height="28"
           >
@@ -37,7 +37,7 @@
             v-if="!isRail" 
             class="font-weight-bold text-h5 ml-2"
           >
-            Digit +
+            Nova
           </span>
         </v-list-item-content>
       </v-list-item>

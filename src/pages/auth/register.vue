@@ -16,12 +16,12 @@
       <div class="d-flex align-center justify-center gap-4 mb-5">
         <img
           src="/favicon.svg"
-          alt="Digit+ logo"
+          alt="Nova logo"
           width="40"
           height="40"
         >
-        <h2 class="text-h5 font-weight-bold mb-0 mr-4">
-          Digit +
+        <h2 class="text-h5 font-weight-bold mb-0 ml-2">
+          Nova
         </h2>
       </div>
       <!-- Login social -->
@@ -93,7 +93,7 @@
           </h3>
           <v-text-field
             v-model="name"
-            placeholder="Jean Dupont"
+            placeholder="Radia Perlman"
             variant="outlined"
             density="comfortable"
             hide-details
@@ -110,7 +110,7 @@
           </h3>
           <v-text-field
             v-model="email"
-            placeholder="jean@example.com"
+            placeholder="radia@example.com"
             type="email"
             variant="outlined"
             density="comfortable"
